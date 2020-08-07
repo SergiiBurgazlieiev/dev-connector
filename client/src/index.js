@@ -10,6 +10,8 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './routing/PrivateRoute';
+import CreateProfile from './components/profile-form/CreateProfile';
 
 import './index.css';
 
@@ -23,7 +25,12 @@ ReactDOM.render(
           <Switch>
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
-            <Route exact path='/dashboard' component={Dashboard} />
+            <PrivateRoute exact path='/dashboard' component={Dashboard} />
+            <PrivateRoute
+              exact
+              path='/create-profile'
+              component={CreateProfile}
+            />
           </Switch>
         </section>
       </App>
