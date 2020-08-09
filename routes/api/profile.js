@@ -30,7 +30,6 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-
 // @route    POST api/profile
 // @desc     Create or update user profile
 // @access   Private
@@ -67,11 +66,14 @@ router.post(
       user: req.user.id,
       company,
       location,
-      website: website && website !== '' ? normalize(website, { forceHttps: true }) : '',
+      website:
+        website && website !== ''
+          ? normalize(website, { forceHttps: true })
+          : '',
       bio,
       skills: Array.isArray(skills)
         ? skills
-        : skills.split(',').map((skill) => ' ' + skill.trim()),
+        : skills.split(',').map(skill => ' ' + skill.trim()),
       status,
       githubusername
     };
@@ -229,9 +231,9 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/profile/education
-// @desc    Add profile education
-// @access  Private
+// @route    PUT api/profile/education
+// @desc     Add profile education
+// @access   Private
 router.put(
   '/education',
   [
@@ -240,13 +242,16 @@ router.put(
       check('school', 'School is required').not().isEmpty(),
       check('degree', 'Degree is required').not().isEmpty(),
       check('fieldofstudy', 'Field of study is required').not().isEmpty(),
-      check('from', 'From date is required').not().isEmpty()
+      check('from', 'From date is required and needs to be from the past')
+        .not()
+        .isEmpty()
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true))
     ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.sendStatus(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const {
@@ -259,7 +264,7 @@ router.put(
       description
     } = req.body;
 
-    const newEducation = {
+    const newEdu = {
       school,
       degree,
       fieldofstudy,
@@ -271,13 +276,15 @@ router.put(
 
     try {
       const profile = await Profile.findOne({ user: req.user.id });
-      profile.education.unshift(newEducation);
+
+      profile.education.unshift(newEdu);
+
       await profile.save();
 
       res.json(profile);
-    } catch (e) {
-      console.error(e.message);
-      res.sendStatus(500).json('Server Error');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
     }
   }
 );
