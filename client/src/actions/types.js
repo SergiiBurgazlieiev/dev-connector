@@ -16,4 +16,7 @@ export const GET_PROFILES = 'get_profiles';
 export const GET_REPOS = 'get_repos';
 export const GET_POSTS = 'get_posts';
 export const POST_ERROR = 'post_error';
+export const UPDATE_LIKES = 'update_likes';
+export const DELETE_POST = 'delete_post';
+export const ADD_POST = 'add_post';
 
