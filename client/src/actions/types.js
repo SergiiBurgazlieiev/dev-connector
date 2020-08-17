@@ -14,4 +14,6 @@ export const UPDATE_PROFILE = 'update_profile';
 export const DELETE_ACCOUNT = 'delete_account';
 export const GET_PROFILES = 'get_profiles';
 export const GET_REPOS = 'get_repos';
+export const GET_POSTS = 'get_posts';
+export const POST_ERROR = 'post_error';
 
