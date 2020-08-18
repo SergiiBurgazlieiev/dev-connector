@@ -1,0 +1,5 @@
+{
+  "mongoURI": "mongodb+srv://SB_USER:Sergii1889!@sergiib.iafe7.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtSecret": "SergiiIsFrontendDeveloperReact",
+  "githubToken": "c8b79643339b58ffbe5d34e68e8f7f3d9c0e7fb3"
+}
